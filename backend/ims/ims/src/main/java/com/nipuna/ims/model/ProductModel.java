@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -38,6 +39,6 @@ public class ProductModel {
 
     private String imageUrl;
 
-    private Date man_date;
-    private Date exp_date;
+    private LocalDate man_date;
+    private LocalDate exp_date;
 }

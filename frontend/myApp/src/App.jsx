@@ -1,14 +1,15 @@
-
-
 import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
+
 import ProductList from './components/ProductList';
 import AddProduct from './components/AddProduct';
 import EditProduct from './components/EditProduct';
 import ProductDetails from './components/ProductDetails';
+import Navbar from './components/NavBar';
 
 function App() {
   return (
     <Router>
+      <Navbar /> {/* ✅ Show the navbar on all pages */}
       <Routes>
         <Route path="/" element={<ProductList />} />
         <Route path="/add" element={<AddProduct />} />

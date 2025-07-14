@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -21,22 +24,50 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    //add product
+    //  Add product with image upload
     @PostMapping("/add")
-    public ResponseEntity<?> addProduct(@RequestBody ProductModel product) {
+    public ResponseEntity<?> addProduct(
+            @RequestParam("productName") String productName,
+            @RequestParam("price") int price,
+            @RequestParam("description") String description,
+            @RequestParam("category") String category,
+            @RequestParam("quantity") int quantity,
+            @RequestParam("man_date") String manDate,
+            @RequestParam("exp_date") String expDate,
+            @RequestParam("image") MultipartFile image
+    ) {
         try {
-            ProductModel savedProduct = productService.addProduct(product);
-            if (savedProduct != null) {
-                return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid product data");
+            // Save image to uploads folder
+            String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+            Path uploadPath = Paths.get("uploads");
+
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
             }
+
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            // Create ProductModel
+            ProductModel product = new ProductModel();
+            product.setProductName(productName);
+            product.setPrice(price);
+            product.setDescription(description);
+            product.setCategory(category);
+            product.setQuantity(quantity);
+            product.setMan_date(LocalDate.parse(manDate));
+            product.setExp_date(LocalDate.parse(expDate));
+            product.setImageUrl("/uploads/" + fileName); // for frontend access
+
+            ProductModel savedProduct = productService.addProduct(product);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error: " + e.getMessage());
         }
     }
 
-    //get all products
+    //  Get all products
     @GetMapping("/all")
     public ResponseEntity<?> getAllProducts() {
         try {
@@ -50,7 +81,7 @@ public class ProductController {
         }
     }
 
-    //get product by name
+    //  Get product by name
     @GetMapping("/name/{name}")
     public ResponseEntity<?> getProductByName(@PathVariable String name) {
         try {
@@ -65,7 +96,7 @@ public class ProductController {
         }
     }
 
-    // Get product by ID
+    //  Get product by ID
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getProductById(@PathVariable int id) {
         try {
@@ -80,8 +111,7 @@ public class ProductController {
         }
     }
 
-
-    //update product by id
+    //  Update product
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable int id, @RequestBody ProductModel product) {
         try {
@@ -96,7 +126,7 @@ public class ProductController {
         }
     }
 
-    // Delete product by ID
+    //  Delete product by ID
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable int id) {
         try {
@@ -110,5 +140,4 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
-
 }

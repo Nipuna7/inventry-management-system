@@ -15,6 +15,8 @@ const AddProduct = () => {
     exp_date: ''
   });
 
+  const [imageFile, setImageFile] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -31,15 +33,20 @@ const AddProduct = () => {
   setMessage({ type: '', text: '' });
 
   try {
-    const productData = {
-      ...formData,
-      price: parseInt(formData.price) || 0,
-      quantity: parseInt(formData.quantity) || 0,
-      man_date: formData.man_date ? new Date(formData.man_date).toISOString() : null,
-      exp_date: formData.exp_date ? new Date(formData.exp_date).toISOString() : null
-    };
+    const formPayload = new FormData();
+    formPayload.append('image', imageFile);
+    formPayload.append('productName', formData.productName);
+    formPayload.append('price', formData.price);
+    formPayload.append('description', formData.description);
+    formPayload.append('category', formData.category);
+    formPayload.append('quantity', formData.quantity);
+    formPayload.append('man_date', formData.man_date);
+    formPayload.append('exp_date', formData.exp_date);
 
-    const response = await axios.post('http://localhost:8080/products/add', productData);
+    const response = await axios.post('http://localhost:8080/products/add', formPayload, {
+             headers: { 'Content-Type': 'multipart/form-data' }
+    });
+
 
     setMessage({ type: 'success', text: 'Product added successfully!' });
     setFormData({
@@ -313,21 +320,18 @@ const AddProduct = () => {
         </div>
 
         <div style={fieldStyle}>
-          <label style={labelStyle}>
-            <Image size={16} />
-            Image URL
-          </label>
-          <input
-            type="url"
-            name="imageUrl"
-            value={formData.imageUrl}
-            onChange={handleChange}
-            style={inputStyle}
-            placeholder="Enter image URL"
-            onFocus={(e) => Object.assign(e.target.style, inputFocusStyle)}
-            onBlur={(e) => Object.assign(e.target.style, inputStyle)}
-          />
+            <label style={labelStyle}>
+                <Image size={16} />
+                   Upload Image
+                </label>
+                <input
+                   type="file"
+                   accept="image/*"
+                   onChange={(e) => setImageFile(e.target.files[0])}
+                   style={inputStyle}
+                   />
         </div>
+
 
         <div style={fieldStyle}>
           <label style={labelStyle}>
