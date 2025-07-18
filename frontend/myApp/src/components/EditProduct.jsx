@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 import { Edit, Package, DollarSign, FileText, Tag, Hash, Image, Calendar, Save, ArrowLeft } from 'lucide-react';
 
 const EditProduct = ({ productId, onBack, onProductUpdated }) => {
@@ -127,7 +128,7 @@ const EditProduct = ({ productId, onBack, onProductUpdated }) => {
 
   const containerStyle = {
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #e3f2fd 0%, #e8eaf6 100%)',
+    background: 'linear-gradient(135deg, #B2D8CE 0%, #648DB3 100%)',
     padding: '20px'
   };
 
@@ -136,8 +137,9 @@ const EditProduct = ({ productId, onBack, onProductUpdated }) => {
     margin: '0 auto',
     backgroundColor: 'white',
     borderRadius: '16px',
-    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-    padding: '32px'
+    boxShadow: '0 25px 50px -12px rgba(82, 53, 123, 0.25), 0 10px 20px -5px rgba(82, 53, 123, 0.1)',
+    padding: '32px',
+    transition: 'all 0.3s ease-in-out'
   };
 
   const headerStyle = {
@@ -149,30 +151,32 @@ const EditProduct = ({ productId, onBack, onProductUpdated }) => {
 
   const backButtonStyle = {
     background: 'none',
-    border: '1px solid #d1d5db',
+    border: '1px solid #648DB3',
     borderRadius: '8px',
     padding: '8px',
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: '#6b7280',
-    transition: 'all 0.2s'
+    color: '#52357B',
+    transition: 'all 0.3s ease-in-out',
+    boxShadow: '0 4px 6px -1px rgba(82, 53, 123, 0.1)'
   };
 
   const iconContainerStyle = {
-    background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+    background: 'linear-gradient(135deg, #52357B 0%, #5459AC 100%)',
     padding: '12px',
     borderRadius: '50%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    boxShadow: '0 10px 15px -3px rgba(82, 53, 123, 0.3)'
   };
 
   const titleStyle = {
     fontSize: '28px',
     fontWeight: 'bold',
-    color: '#1f2937',
+    color: '#52357B',
     margin: 0
   };
 
@@ -180,9 +184,11 @@ const EditProduct = ({ productId, onBack, onProductUpdated }) => {
     padding: '16px',
     borderRadius: '8px',
     marginBottom: '24px',
-    backgroundColor: type === 'success' ? '#f0fdf4' : '#fef2f2',
-    border: `1px solid ${type === 'success' ? '#bbf7d0' : '#fecaca'}`,
-    color: type === 'success' ? '#166534' : '#dc2626'
+    backgroundColor: type === 'success' ? '#B2D8CE' : '#f8d7da',
+    border: `1px solid ${type === 'success' ? '#648DB3' : '#f5c6cb'}`,
+    color: type === 'success' ? '#52357B' : '#721c24',
+    boxShadow: '0 4px 6px -1px rgba(82, 53, 123, 0.1)',
+    transition: 'all 0.3s ease-in-out'
   });
 
   const gridStyle = {
@@ -202,25 +208,26 @@ const EditProduct = ({ productId, onBack, onProductUpdated }) => {
     gap: '8px',
     fontSize: '14px',
     fontWeight: '500',
-    color: '#374151',
+    color: '#52357B',
     marginBottom: '8px'
   };
 
   const inputStyle = {
     width: '100%',
     padding: '12px 16px',
-    border: '1px solid #d1d5db',
+    border: '1px solid #648DB3',
     borderRadius: '8px',
     fontSize: '16px',
-    transition: 'border-color 0.2s, box-shadow 0.2s',
+    transition: 'all 0.3s ease-in-out',
     outline: 'none',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    boxShadow: '0 2px 4px rgba(82, 53, 123, 0.1)'
   };
 
   const inputFocusStyle = {
     ...inputStyle,
-    borderColor: '#f59e0b',
-    boxShadow: '0 0 0 3px rgba(245, 158, 11, 0.1)'
+    borderColor: '#5459AC',
+    boxShadow: '0 0 0 3px rgba(84, 89, 172, 0.1), 0 4px 6px rgba(82, 53, 123, 0.1)'
   };
 
   const textareaStyle = {
@@ -238,7 +245,7 @@ const EditProduct = ({ productId, onBack, onProductUpdated }) => {
 
   const primaryButtonStyle = {
     flex: 1,
-    background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+    background: 'linear-gradient(135deg, #52357B 0%, #5459AC 100%)',
     color: 'white',
     padding: '12px 24px',
     borderRadius: '8px',
@@ -246,24 +253,26 @@ const EditProduct = ({ productId, onBack, onProductUpdated }) => {
     border: 'none',
     cursor: loading ? 'not-allowed' : 'pointer',
     opacity: loading ? 0.6 : 1,
-    transition: 'all 0.2s',
+    transition: 'all 0.3s ease-in-out',
     fontSize: '16px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '8px'
+    gap: '8px',
+    boxShadow: '0 10px 15px -3px rgba(82, 53, 123, 0.3), 0 4px 6px -2px rgba(82, 53, 123, 0.1)'
   };
 
   const secondaryButtonStyle = {
     padding: '12px 24px',
-    border: '1px solid #d1d5db',
-    color: '#374151',
+    border: '1px solid #648DB3',
+    color: '#52357B',
     borderRadius: '8px',
     fontWeight: '500',
     backgroundColor: 'white',
     cursor: 'pointer',
-    transition: 'background-color 0.2s',
-    fontSize: '16px'
+    transition: 'all 0.3s ease-in-out',
+    fontSize: '16px',
+    boxShadow: '0 4px 6px -1px rgba(82, 53, 123, 0.1)'
   };
 
   const loadingStyle = {
@@ -272,25 +281,86 @@ const EditProduct = ({ productId, onBack, onProductUpdated }) => {
     alignItems: 'center',
     height: '400px',
     fontSize: '18px',
-    color: '#6b7280'
+    color: '#5459AC'
   };
 
   const productInfoStyle = {
-    backgroundColor: '#f8fafc',
+    backgroundColor: '#B2D8CE',
     padding: '16px',
     borderRadius: '8px',
     marginBottom: '24px',
-    border: '1px solid #e2e8f0'
+    border: '1px solid #648DB3',
+    color: '#52357B',
+    boxShadow: '0 4px 6px -1px rgba(82, 53, 123, 0.1)',
+    transition: 'all 0.3s ease-in-out'
+  };
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const buttonVariants = {
+    hover: {
+      scale: 1.05,
+      y: -2,
+      transition: {
+        duration: 0.2,
+        ease: "easeInOut"
+      }
+    },
+    tap: {
+      scale: 0.95,
+      transition: {
+        duration: 0.1
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
   };
 
   if (fetchingProduct) {
     return (
       <div style={containerStyle}>
-        <div style={cardStyle}>
+        <motion.div 
+          style={cardStyle}
+          initial="hidden"
+          animate="visible"
+          variants={cardVariants}
+        >
           <div style={loadingStyle}>
             Loading product details...
           </div>
-        </div>
+        </motion.div>
       </div>
     );
   }
@@ -298,52 +368,76 @@ const EditProduct = ({ productId, onBack, onProductUpdated }) => {
   if (!originalProduct) {
     return (
       <div style={containerStyle}>
-        <div style={cardStyle}>
+        <motion.div 
+          style={cardStyle}
+          initial="hidden"
+          animate="visible"
+          variants={cardVariants}
+        >
           <div style={messageStyle('error')}>
             Product not found or failed to load.
           </div>
           {onBack && (
-            <button onClick={onBack} style={secondaryButtonStyle}>
+            <motion.button 
+              onClick={onBack} 
+              style={secondaryButtonStyle}
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
+            >
               <ArrowLeft size={16} />
               Back to Products
-            </button>
+            </motion.button>
           )}
-        </div>
+        </motion.div>
       </div>
     );
   }
 
   return (
     <div style={containerStyle}>
-      <div style={cardStyle}>
-        <div style={headerStyle}>
+      <motion.div 
+        style={cardStyle}
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
+        <motion.div style={headerStyle} variants={itemVariants}>
           {onBack && (
-            <button
+            <motion.button
               onClick={onBack}
               style={backButtonStyle}
-              onMouseOver={(e) => (e.target.style.backgroundColor = '#f3f4f6')}
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
+              onMouseOver={(e) => (e.target.style.backgroundColor = '#B2D8CE')}
               onMouseOut={(e) => (e.target.style.backgroundColor = 'transparent')}
             >
               <ArrowLeft size={20} />
-            </button>
+            </motion.button>
           )}
           <div style={iconContainerStyle}>
             <Edit size={24} color="white" />
           </div>
           <h1 style={titleStyle}>Edit Product</h1>
-        </div>
+        </motion.div>
 
-        <div style={productInfoStyle}>
+        <motion.div style={productInfoStyle} variants={itemVariants}>
           <strong>Product ID:</strong> {originalProduct.product_id}
-        </div>
+        </motion.div>
 
         {message.text && (
-          <div style={messageStyle(message.type)}>
+          <motion.div 
+            style={messageStyle(message.type)}
+            variants={itemVariants}
+            initial="hidden"
+            animate="visible"
+          >
             {message.text}
-          </div>
+          </motion.div>
         )}
 
-        <div style={gridStyle}>
+        <motion.div style={gridStyle} variants={itemVariants}>
           <div style={fieldStyle}>
             <label style={labelStyle}>
               <Package size={16} />
@@ -449,9 +543,9 @@ const EditProduct = ({ productId, onBack, onProductUpdated }) => {
               onBlur={(e) => Object.assign(e.target.style, inputStyle)}
             />
           </div>
-        </div>
+        </motion.div>
 
-        <div style={fieldStyle}>
+        <motion.div style={fieldStyle} variants={itemVariants}>
           <label style={labelStyle}>
             <Image size={16} />
             Image URL
@@ -466,9 +560,9 @@ const EditProduct = ({ productId, onBack, onProductUpdated }) => {
             onFocus={(e) => Object.assign(e.target.style, inputFocusStyle)}
             onBlur={(e) => Object.assign(e.target.style, inputStyle)}
           />
-        </div>
+        </motion.div>
 
-        <div style={fieldStyle}>
+        <motion.div style={fieldStyle} variants={itemVariants}>
           <label style={labelStyle}>
             <FileText size={16} />
             Description
@@ -479,35 +573,39 @@ const EditProduct = ({ productId, onBack, onProductUpdated }) => {
             onChange={handleChange}
             style={textareaStyle}
             placeholder="Enter product description"
-            onFocus={(e) => Object.assign(e.target.style, {...textareaStyle, borderColor: '#f59e0b', boxShadow: '0 0 0 3px rgba(245, 158, 11, 0.1)'})}
+            onFocus={(e) => Object.assign(e.target.style, {...textareaStyle, borderColor: '#5459AC', boxShadow: '0 0 0 3px rgba(84, 89, 172, 0.1), 0 4px 6px rgba(82, 53, 123, 0.1)'})}
             onBlur={(e) => Object.assign(e.target.style, textareaStyle)}
           />
-        </div>
+        </motion.div>
 
-        <div style={buttonContainerStyle}>
-          <button
+        <motion.div style={buttonContainerStyle} variants={itemVariants}>
+          <motion.button
             type="button"
             onClick={handleSubmit}
             disabled={loading}
             style={primaryButtonStyle}
-            onMouseOver={(e) => !loading && (e.target.style.transform = 'translateY(-1px)')}
-            onMouseOut={(e) => (e.target.style.transform = 'translateY(0)')}
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
           >
             <Save size={16} />
             {loading ? 'Updating Product...' : 'Update Product'}
-          </button>
+          </motion.button>
           
-          <button
+          <motion.button
             type="button"
             onClick={handleReset}
             style={secondaryButtonStyle}
-            onMouseOver={(e) => (e.target.style.backgroundColor = '#f9fafb')}
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
+            onMouseOver={(e) => (e.target.style.backgroundColor = '#B2D8CE')}
             onMouseOut={(e) => (e.target.style.backgroundColor = 'white')}
           >
             Reset
-          </button>
-        </div>
-      </div>
+          </motion.button>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

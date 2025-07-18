@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Package, DollarSign, FileText, Tag, Hash, Image, Calendar } from 'lucide-react';
+import { motion } from 'framer-motion';
 import axios from 'axios';
-
 
 const AddProduct = () => {
   const [formData, setFormData] = useState({
@@ -16,7 +16,6 @@ const AddProduct = () => {
   });
 
   const [imageFile, setImageFile] = useState(null);
-
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -29,51 +28,49 @@ const AddProduct = () => {
   };
 
   const handleSubmit = async () => {
-  setLoading(true);
-  setMessage({ type: '', text: '' });
+    setLoading(true);
+    setMessage({ type: '', text: '' });
 
-  try {
-    const formPayload = new FormData();
-    formPayload.append('image', imageFile);
-    formPayload.append('productName', formData.productName);
-    formPayload.append('price', formData.price);
-    formPayload.append('description', formData.description);
-    formPayload.append('category', formData.category);
-    formPayload.append('quantity', formData.quantity);
-    formPayload.append('man_date', formData.man_date);
-    formPayload.append('exp_date', formData.exp_date);
+    try {
+      const formPayload = new FormData();
+      formPayload.append('image', imageFile);
+      formPayload.append('productName', formData.productName);
+      formPayload.append('price', formData.price);
+      formPayload.append('description', formData.description);
+      formPayload.append('category', formData.category);
+      formPayload.append('quantity', formData.quantity);
+      formPayload.append('man_date', formData.man_date);
+      formPayload.append('exp_date', formData.exp_date);
 
-    const response = await axios.post('http://localhost:8080/products/add', formPayload, {
-             headers: { 'Content-Type': 'multipart/form-data' }
-    });
+      const response = await axios.post('http://localhost:8080/products/add', formPayload, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
 
-
-    setMessage({ type: 'success', text: 'Product added successfully!' });
-    setFormData({
-      productName: '',
-      price: '',
-      description: '',
-      category: '',
-      quantity: '',
-      imageUrl: '',
-      man_date: '',
-      exp_date: ''
-    });
-  } catch (error) {
-    if (error.response && error.response.data) {
-      setMessage({ type: 'error', text: error.response.data });
-    } else {
-      setMessage({ type: 'error', text: 'Network error: ' + error.message });
+      setMessage({ type: 'success', text: 'Product added successfully!' });
+      setFormData({
+        productName: '',
+        price: '',
+        description: '',
+        category: '',
+        quantity: '',
+        imageUrl: '',
+        man_date: '',
+        exp_date: ''
+      });
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setMessage({ type: 'error', text: error.response.data });
+      } else {
+        setMessage({ type: 'error', text: 'Network error: ' + error.message });
+      }
+    } finally {
+      setLoading(false);
     }
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   const containerStyle = {
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #e3f2fd 0%, #e8eaf6 100%)',
+    background: 'linear-gradient(135deg, #B2D8CE 0%, #648DB3 50%, #5459AC 100%)',
     padding: '20px'
   };
 
@@ -82,8 +79,9 @@ const AddProduct = () => {
     margin: '0 auto',
     backgroundColor: 'white',
     borderRadius: '16px',
-    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-    padding: '32px'
+    boxShadow: '0 25px 50px -12px rgba(82, 53, 123, 0.25), 0 10px 20px -5px rgba(82, 53, 123, 0.1)',
+    padding: '32px',
+    transition: 'all 0.3s ease'
   };
 
   const headerStyle = {
@@ -94,18 +92,20 @@ const AddProduct = () => {
   };
 
   const iconContainerStyle = {
-    background: 'linear-gradient(135deg, #3b82f6 0%, #4f46e5 100%)',
+    background: 'linear-gradient(135deg, #52357B 0%, #5459AC 100%)',
     padding: '12px',
     borderRadius: '50%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    boxShadow: '0 8px 16px rgba(82, 53, 123, 0.3)',
+    transition: 'all 0.3s ease'
   };
 
   const titleStyle = {
     fontSize: '28px',
     fontWeight: 'bold',
-    color: '#1f2937',
+    color: '#52357B',
     margin: 0
   };
 
@@ -114,8 +114,10 @@ const AddProduct = () => {
     borderRadius: '8px',
     marginBottom: '24px',
     backgroundColor: type === 'success' ? '#f0fdf4' : '#fef2f2',
-    border: `1px solid ${type === 'success' ? '#bbf7d0' : '#fecaca'}`,
-    color: type === 'success' ? '#166534' : '#dc2626'
+    border: `1px solid ${type === 'success' ? '#B2D8CE' : '#fecaca'}`,
+    color: type === 'success' ? '#52357B' : '#dc2626',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    transition: 'all 0.3s ease'
   });
 
   const gridStyle = {
@@ -135,25 +137,27 @@ const AddProduct = () => {
     gap: '8px',
     fontSize: '14px',
     fontWeight: '500',
-    color: '#374151',
+    color: '#52357B',
     marginBottom: '8px'
   };
 
   const inputStyle = {
     width: '100%',
     padding: '12px 16px',
-    border: '1px solid #d1d5db',
+    border: '2px solid #B2D8CE',
     borderRadius: '8px',
     fontSize: '16px',
-    transition: 'border-color 0.2s, box-shadow 0.2s',
+    transition: 'all 0.3s ease',
     outline: 'none',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    boxShadow: '0 2px 4px rgba(178, 216, 206, 0.1)'
   };
 
   const inputFocusStyle = {
     ...inputStyle,
-    borderColor: '#3b82f6',
-    boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.1)'
+    borderColor: '#5459AC',
+    boxShadow: '0 0 0 3px rgba(84, 89, 172, 0.1), 0 4px 8px rgba(84, 89, 172, 0.2)',
+    transform: 'translateY(-1px)'
   };
 
   const textareaStyle = {
@@ -171,7 +175,7 @@ const AddProduct = () => {
 
   const primaryButtonStyle = {
     flex: 1,
-    background: 'linear-gradient(135deg, #3b82f6 0%, #4f46e5 100%)',
+    background: 'linear-gradient(135deg, #52357B 0%, #5459AC 100%)',
     color: 'white',
     padding: '12px 24px',
     borderRadius: '8px',
@@ -179,20 +183,48 @@ const AddProduct = () => {
     border: 'none',
     cursor: loading ? 'not-allowed' : 'pointer',
     opacity: loading ? 0.6 : 1,
-    transition: 'all 0.2s',
-    fontSize: '16px'
+    fontSize: '16px',
+    boxShadow: '0 4px 12px rgba(82, 53, 123, 0.3)',
+    transition: 'all 0.3s ease'
   };
 
   const secondaryButtonStyle = {
     padding: '12px 24px',
-    border: '1px solid #d1d5db',
-    color: '#374151',
+    border: '2px solid #648DB3',
+    color: '#52357B',
     borderRadius: '8px',
     fontWeight: '500',
     backgroundColor: 'white',
     cursor: 'pointer',
-    transition: 'background-color 0.2s',
-    fontSize: '16px'
+    fontSize: '16px',
+    boxShadow: '0 2px 8px rgba(100, 141, 179, 0.2)',
+    transition: 'all 0.3s ease'
+  };
+
+  const buttonVariants = {
+    hover: { 
+      scale: 1.02,
+      y: -2,
+      boxShadow: '0 8px 20px rgba(82, 53, 123, 0.4)'
+    },
+    tap: { 
+      scale: 0.98,
+      y: 0
+    }
+  };
+
+  const secondaryButtonVariants = {
+    hover: { 
+      scale: 1.02,
+      y: -2,
+      backgroundColor: '#f8fafc',
+      borderColor: '#5459AC',
+      boxShadow: '0 6px 16px rgba(100, 141, 179, 0.3)'
+    },
+    tap: { 
+      scale: 0.98,
+      y: 0
+    }
   };
 
   return (
@@ -320,18 +352,17 @@ const AddProduct = () => {
         </div>
 
         <div style={fieldStyle}>
-            <label style={labelStyle}>
-                <Image size={16} />
-                   Upload Image
-                </label>
-                <input
-                   type="file"
-                   accept="image/*"
-                   onChange={(e) => setImageFile(e.target.files[0])}
-                   style={inputStyle}
-                   />
+          <label style={labelStyle}>
+            <Image size={16} />
+            Upload Image
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImageFile(e.target.files[0])}
+            style={inputStyle}
+          />
         </div>
-
 
         <div style={fieldStyle}>
           <label style={labelStyle}>
@@ -344,24 +375,26 @@ const AddProduct = () => {
             onChange={handleChange}
             style={textareaStyle}
             placeholder="Enter product description"
-            onFocus={(e) => Object.assign(e.target.style, {...textareaStyle, borderColor: '#3b82f6', boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.1)'})}
+            onFocus={(e) => Object.assign(e.target.style, {...textareaStyle, borderColor: '#5459AC', boxShadow: '0 0 0 3px rgba(84, 89, 172, 0.1), 0 4px 8px rgba(84, 89, 172, 0.2)', transform: 'translateY(-1px)'})}
             onBlur={(e) => Object.assign(e.target.style, textareaStyle)}
           />
         </div>
 
         <div style={buttonContainerStyle}>
-          <button
+          <motion.button
             type="button"
             onClick={handleSubmit}
             disabled={loading}
             style={primaryButtonStyle}
-            onMouseOver={(e) => !loading && (e.target.style.transform = 'translateY(-1px)')}
-            onMouseOut={(e) => (e.target.style.transform = 'translateY(0)')}
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
+            transition={{ duration: 0.2 }}
           >
             {loading ? 'Adding Product...' : 'Add Product'}
-          </button>
+          </motion.button>
           
-          <button
+          <motion.button
             type="button"
             onClick={() => {
               setFormData({
@@ -377,11 +410,13 @@ const AddProduct = () => {
               setMessage({ type: '', text: '' });
             }}
             style={secondaryButtonStyle}
-            onMouseOver={(e) => (e.target.style.backgroundColor = '#f9fafb')}
-            onMouseOut={(e) => (e.target.style.backgroundColor = 'white')}
+            variants={secondaryButtonVariants}
+            whileHover="hover"
+            whileTap="tap"
+            transition={{ duration: 0.2 }}
           >
             Clear
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>
