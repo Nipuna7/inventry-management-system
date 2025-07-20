@@ -16,6 +16,7 @@ const AddProduct = () => {
   });
 
   const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -27,9 +28,22 @@ const AddProduct = () => {
     }));
   };
 
+         const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     setMessage({ type: '', text: '' });
+    
 
     try {
       const formPayload = new FormData();
@@ -45,6 +59,8 @@ const AddProduct = () => {
       const response = await axios.post('http://localhost:8080/products/add', formPayload, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
+
+
 
       setMessage({ type: 'success', text: 'Product added successfully!' });
       setFormData({
@@ -359,9 +375,24 @@ const AddProduct = () => {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setImageFile(e.target.files[0])}
+            onChange={handleImageChange}
             style={inputStyle}
-          />
+          />{imagePreview && (
+            <div style={{ marginTop: '12px', textAlign: 'center' }}>
+              <img
+                src={imagePreview}
+                alt="Preview"
+                style={{
+                  maxWidth: '200px',
+                  maxHeight: '200px',
+                  objectFit: 'cover',
+                  borderRadius: '8px',
+                  border: '2px solid #B2D8CE',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+                }}
+              />
+            </div>
+          )}
         </div>
 
         <div style={fieldStyle}>
